@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.A.P.L.E Content Rating Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --bg: #080808;
+            --r13: #3b82f6; /* Xanh dương */
+            --r16: #eab308; /* Vàng */
+            --r18: #ef4444; /* Đỏ */
+            --panel: #0d0d0d;
+        }
+
+        body {
+            font-family: 'JetBrains+Mono', monospace;
+            background-color: var(--bg);
+            color: #d1d5db;
+            padding: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .rating-card {
+            background: var(--panel);
+            border: 1px solid #1a1a1a;
+            border-left: 4px solid currentColor;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rating-card:hover {
+            transform: translateX(8px);
+            box-shadow: -10px 0 30px -10px currentColor;
+            border-color: #333;
+        }
+
+        .badge-large {
+            font-size: 1.5rem;
+            font-weight: 800;
+            border: 1px solid currentColor;
+            padding: 4px 14px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.03);
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            border-radius: 2px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #888;
+        }
+
+        .warning-box {
+            background: rgba(0,0,0,0.6);
+            border: 1px dashed rgba(255,255,255,0.1);
+            padding: 16px;
+            /* Tăng kích thước chữ cảnh báo */
+            font-size: 0.95rem; 
+        }
+
+        .scanline {
+            width: 100%;
+            height: 1px;
+            background: currentColor;
+            position: absolute;
+            opacity: 0.1;
+            animation: scan 6s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .label-text {
+            /* Tăng kích thước nhãn tiêu đề */
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-weight: bold;
+            opacity: 0.9;
+        }
+
+        .advice-section {
+            /* Tăng kích thước lời khuyên */
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="max-w-5xl mx-auto">
+        <header class="mb-16 border-b border-gray-800 pb-8">
+            <h1 class="text-3xl font-bold text-white tracking-tighter uppercase">Cẩm nang Phân loại Dữ liệu</h1>
+            <p class="text-gray-500 text-xs mt-2 uppercase tracking-[0.2em]">Hệ thống quy chuẩn nội dung // Tổ chức M.A.P.L.E</p>
+        </header>
+
+        <div class="grid grid-cols-1 gap-10">
+            
+            <!-- [13+] BLUE -->
+            <div class="rating-card p-8 text-blue-500" style="color: var(--r13)">
+                <div class="scanline"></div>
+                <div class="flex flex-col md:flex-row justify-between gap-10">
+                    <div class="flex-1">
+                        <div class="badge-large">13+</div>
+                        <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tight">Mức độ: Quan sát Cơ bản</h3>
+                        <p class="text-gray-400 text-base mb-8 leading-relaxed">
+                            Khám phá Maze, ghi chép về các vật phẩm cơ bản và những bí ẩn cấp độ thấp. Nội dung tập trung vào thám hiểm, mang tính chất kích thích sự tò mò, không gây ảnh hưởng tiêu cực đến tâm lý.
+                        </p>
+                        <div class="flex flex-wrap">
+                            <span class="tag">#Bí_ẩn</span>
+                            <span class="tag">#Căng_thẳng</span>
+                            <span class="tag">#Thám_hiểm</span>
+                        </div>
+                    </div>
+                    <div class="md:w-80 border-l border-gray-800/50 md:pl-8 flex flex-col justify-between">
+                        <div>
+                            <span class="label-text">Cảnh báo nội dung:</span>
+                            <div class="warning-box mb-6">
+                                <ul class="list-disc list-inside text-gray-400 space-y-2">
+                                    <li>Môi trường cô lập</li>
+                                    <li>Hiện tượng âm thanh lạ</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="advice-section italic text-blue-400 border-t border-gray-800 pt-6">
+                            <strong>Lời khuyên:</strong> Nhân sự mới cần sự hướng dẫn khi tiếp cận dữ liệu lần đầu.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [16+] YELLOW -->
+            <div class="rating-card p-8 text-yellow-500" style="color: var(--r16)">
+                <div class="scanline"></div>
+                <div class="flex flex-col md:flex-row justify-between gap-10">
+                    <div class="flex-1">
+                        <div class="badge-large">16+</div>
+                        <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tight">Mức độ: Nguy hiểm Tiềm tàng</h3>
+                        <p class="text-gray-400 text-base mb-8 leading-relaxed">
+                            Chứa hình ảnh về các thực thể nguy hiểm (The Hollow) và quái vật. Ghi nhận các báo cáo về thương tích thực tế và các tình huống bạo lực giả tưởng trong môi trường Maze.
+                        </p>
+                        <div class="flex flex-wrap">
+                            <span class="tag">#Thực_thể</span>
+                            <span class="tag">#Kinh_dị</span>
+                            <span class="tag">#Tâm_lý</span>
+                            <span class="tag">#Bạo_lực_giả_tưởng</span>
+                        </div>
+                    </div>
+                    <div class="md:w-80 border-l border-gray-800/50 md:pl-8 flex flex-col justify-between">
+                        <div>
+                            <span class="label-text">Cảnh báo nội dung:</span>
+                            <div class="warning-box mb-6">
+                                <ul class="list-disc list-inside text-gray-400 space-y-2">
+                                    <li>Hình ảnh thực thể biến dạng</li>
+                                    <li>Yếu tố gây giật mình</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="advice-section italic text-yellow-500 border-t border-gray-800 pt-6">
+                            <strong>Lời khuyên:</strong> Yêu cầu xác minh độ tuổi. Cân nhắc nếu có tiền sử nhạy cảm với hình ảnh quái dị.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [18+] RED -->
+            <div class="rating-card p-8 text-red-500" style="color: var(--r18)">
+                <div class="scanline"></div>
+                <div class="flex flex-col md:flex-row justify-between gap-10">
+                    <div class="flex-1">
+                        <div class="badge-large">18+</div>
+                        <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tight">Mức độ: Tối mật / Nguy hiểm cao</h3>
+                        <p class="text-gray-400 text-base mb-8 leading-relaxed">
+                            Nội dung nặng nhất: Máu me (Gore), giết chóc, thí nghiệm vô nhân đạo và các yếu tố nhạy cảm liên quan đến tội phạm. Chứa các tình tiết gây chấn thương tâm lý mạnh và hình ảnh cực đoan.
+                        </p>
+                        <div class="flex flex-wrap">
+                            <span class="tag">#Máu_me_(Gore)</span>
+                            <span class="tag">#Giết_chóc</span>
+                            <span class="tag">#Tự_sát_(giả_tưởng)</span>
+                            <span class="tag">#Nhạy_cảm</span>
+                            <span class="tag">#Vô_nhân_đạo</span>
+                        </div>
+                    </div>
+                    <div class="md:w-80 border-l border-gray-800/50 md:pl-8 flex flex-col justify-between">
+                        <div>
+                            <span class="label-text text-red-500">Cảnh báo nội dung:</span>
+                            <div class="warning-box mb-6 border-red-900/30">
+                                <ul class="list-disc list-inside text-gray-400 space-y-2">
+                                    <li>Cảnh máu me và bạo lực nặng</li>
+                                    <li>Nội dung ám ảnh tâm lý sâu</li>
+                                    <li>Thí nghiệm sinh học cực đoan</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="advice-section italic text-red-500 font-bold border-t border-gray-800 pt-6 uppercase tracking-wide">
+                            <strong>Lời khuyên:</strong> Người đọc cần cân nhắc kỹ. Yêu cầu báo cáo trạng thái tâm lý sau khi truy cập.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="mt-20 text-center border-t border-gray-800 pt-4">
+            <p class="text-[10px] text-gray-600">THIẾT KẾ BỞI BEESTUDIO 2026 - HỆ THỐNG M.A.P.L.E - (THỬ NGHIỆM)</p>
+            <p class="text-[10px] text-gray-600">Cảm ơn đã xem qua sản phẩm này</p>
+        </footer>
+    </div>
+
+</body>
+</html>

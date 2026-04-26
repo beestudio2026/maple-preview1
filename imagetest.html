@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.A.P.L.E Visual Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --danger: #ef4444;
+            --success: #10b981;
+            --bg: #0c0c0c;
+            --panel: #110000;
+            --header-red: #450a0a;
+            --header-green: #064e3b;
+            --glow-red: rgba(239, 68, 68, 0.5);
+            
+            /* Rating Colors */
+            --r13: #eab308; /* Vàng */
+            --r16: #f97316; /* Cam */
+            --r18: #dc2626; /* Đỏ */
+        }
+
+        body {
+            font-family: 'JetBrains+Mono', monospace;
+            background-color: var(--bg);
+            color: #ccc;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Chấm trạng thái */
+        .status-dot {
+            height: 8px;
+            width: 8px;
+            background-color: var(--danger);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px var(--danger);
+            transition: all 0.3s;
+        }
+
+        .is-decrypted .status-dot {
+            background-color: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        /* KHỐI ẢNH BẢO MẬT */
+        .secure-block {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 1.5rem auto;
+            border: 1px solid var(--header-red);
+            background: var(--panel);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.4s;
+        }
+
+        .security-header {
+            background: var(--header-red);
+            color: #fca5a5;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #7f1d1d;
+            transition: all 0.3s;
+        }
+
+        .image-container {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        /* THẺ PHÂN LOẠI (RATING TAGS) */
+        .rating-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 25;
+            padding: 2px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid currentColor;
+            letter-spacing: 1px;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .r-13 { color: var(--r13); box-shadow: 0 0 10px rgba(234, 179, 8, 0.3); }
+        .r-16 { color: var(--r16); box-shadow: 0 0 10px rgba(249, 115, 22, 0.3); }
+        .r-18 { color: var(--r18); box-shadow: 0 0 10px rgba(220, 38, 38, 0.3); }
+
+        .main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(60px) brightness(0.2);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* Lớp phủ cảnh báo (Đã cập nhật theo mẫu ảnh của bạn) */
+        .warning-label {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            transition: opacity 0.4s ease;
+            background: radial-gradient(circle, rgba(17,0,0,0.5) 0%, transparent 80%);
+        }
+
+        .warning-box {
+            background: rgba(127, 29, 29, 0.4);
+            color: white;
+            padding: 0.8rem 2.5rem;
+            border: 1px solid var(--danger);
+            box-shadow: 0 0 15px var(--glow-red), inset 0 0 10px rgba(239, 68, 68, 0.2);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+        }
+
+        .warning-subtext {
+            color: #7f1d1d;
+            font-size: 10px;
+            font-style: italic;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(127, 29, 29, 0.5);
+        }
+
+        /* Trạng thái sau khi click */
+        .is-decrypted .main-img {
+            filter: blur(0) brightness(1);
+        }
+
+        .is-decrypted .warning-label, 
+        .is-decrypted .rating-badge {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .is-decrypted .security-header {
+            background: var(--header-green);
+            color: #6ee7b7;
+            border-bottom-color: #065f46;
+        }
+
+        .is-decrypted.secure-block {
+            border-color: #065f46;
+        }
+
+        .scanline {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.15) 50%);
+            background-size: 100% 4px;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-12 border-b border-gray-800 pb-6 text-center">
+            <h1 class="text-3xl font-bold text-white uppercase tracking-tighter">HỆ THỐNG TRÍ TUỆ THỊ GIÁC M.A.P.L.E</h1>
+            <p class="text-red-500 text-xs mt-2 font-bold">[ CHỈ DÀNH CHO NHÂN VIÊN CHI NHÁNH VIỆT NAM ]</p>
+        </header>
+
+        <!-- DỮ LIỆU PHÂN LOẠI 13+ -->
+        <section class="mb-12">
+            <div class="flex items-center mb-3">
+                <div class="w-2 h-4 bg-yellow-500 mr-3"></div>
+                <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Dữ liệu quan sát: Khu vực công cộng</h2>
+            </div>
+            
+            <div class="secure-block" id="vis-13" onclick="toggleDecryption('vis-13')">
+                <div class="security-header">
+                    <span><span class="status-dot"></span>DỮ LIỆU ĐANG KHÓA (LEVEL 3 REQUIRED)</span>
+                    <span>REF: PUB-SCAN-13</span>
+                </div>
+                
+                <div class="image-container">
+                    <div class="rating-badge r-13">13+</div>
+                    <div class="scanline"></div>
+                    
+                    <div class="warning-label">
+                        <div class="warning-box">THÔNG TIN NHẠY CẢM - CLICK ĐỂ XÁC MINH QUYỀN TRUY CẬP</div>
+                        <p class="warning-subtext">
+                            CẢNH BÁO: MỌI HÀNH VI TRUY CẬP TRÁI PHÉP SẼ BỊ XỬ LÝ THEO LUẬT CỦA TỔ CHỨC
+                        </p>
+                    </div>
+
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1200" alt="Tech Corridor" class="main-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- DỮ LIỆU PHÂN LOẠI 16+ -->
+        <section class="mb-12">
+            <div class="flex items-center mb-3">
+                <div class="w-2 h-4 bg-orange-500 mr-3"></div>
+                <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Trích xuất hiện trường: Khu vực hạn chế</h2>
+            </div>
+            
+            <div class="secure-block" id="vis-16" onclick="toggleDecryption('vis-16')">
+                <div class="security-header">
+                    <span><span class="status-dot"></span>DỮ LIỆU ĐANG KHÓA (LEVEL 4 REQUIRED)</span>
+                    <span>REF: RES-SCAN-16</span>
+                </div>
+                
+                <div class="image-container">
+                    <div class="rating-badge r-16">16+</div>
+                    <div class="scanline"></div>
+                    
+                    <div class="warning-label">
+                        <div class="warning-box">THÔNG TIN NHẠY CẢM - CLICK ĐỂ XÁC MINH QUYỀN TRUY CẬP</div>
+                        <p class="warning-subtext">
+                            CẢNH BÁO: MỌI HÀNH VI TRUY CẬP TRÁI PHÉP SẼ BỊ XỬ LÝ THEO LUẬT CỦA TỔ CHỨC
+                        </p>
+                    </div>
+
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200" alt="Maze Interior" class="main-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- DỮ LIỆU PHÂN LOẠI 18+ -->
+        <section class="mb-12">
+            <div class="flex items-center mb-3">
+                <div class="w-2 h-4 bg-red-600 mr-3"></div>
+                <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Dữ liệu tối mật: Đối tượng nguy hiểm</h2>
+            </div>
+            
+            <div class="secure-block" id="vis-18" onclick="toggleDecryption('vis-18')">
+                <div class="security-header">
+                    <span><span class="status-dot"></span>DỮ LIỆU ĐANG KHÓA (LEVEL 5 REQUIRED)</span>
+                    <span>REF: CLASSIFIED-18</span>
+                </div>
+                
+                <div class="image-container">
+                    <div class="rating-badge r-18">18+</div>
+                    <div class="scanline"></div>
+                    
+                    <div class="warning-label">
+                        <div class="warning-box">THÔNG TIN NHẠY CẢM - CLICK ĐỂ XÁC MINH QUYỀN TRUY CẬP</div>
+                        <p class="warning-subtext">
+                            CẢNH BÁO: MỌI HÀNH VI TRUY CẬP TRÁI PHÉP SẼ BỊ XỬ LÝ THEO LUẬT CỦA TỔ CHỨC
+                        </p>
+                    </div>
+
+                    <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200" alt="Classified Profile" class="main-img">
+                </div>
+            </div>
+        </section>
+
+        <footer class="mt-20 text-center border-t border-gray-900 pt-6 pb-10">
+            <p class="text-[10px] text-gray-700 tracking-[0.2em]">THIẾT KẾ BỞI BEESTUDIO 2026 - HỆ THỐNG M.A.P.L.E</p>
+            <p class="text-[10px] text-gray-600">Cảm ơn đã xem qua sản phẩm này</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleDecryption(id) {
+            const block = document.getElementById(id);
+            block.classList.toggle('is-decrypted');
+            
+            const headerText = block.querySelector('.security-header span:first-child');
+            
+            if(block.classList.contains('is-decrypted')) {
+                headerText.innerHTML = '<span class="status-dot"></span>DỮ LIỆU ĐÃ ĐƯỢC GIẢI MÃ';
+            } else {
+                headerText.innerHTML = '<span class="status-dot"></span>DỮ LIỆU ĐANG KHÓA (LEVEL REQUIRED)';
+            }
+        }
+    </script>
+</body>
+</html>

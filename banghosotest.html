@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.A.P.L.E Record Templates - Refined</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@800&display=swap');
+        
+        body {
+            background-color: #030303;
+            font-family: 'JetBrains+Mono', monospace;
+            padding: 60px 20px;
+            color: #a1a1aa;
+        }
+
+        /* Khung bảng tổng quát */
+        .record-board {
+            max-width: 880px;
+            margin: 0 auto 80px;
+            background: linear-gradient(145deg, #0a0a0a, #050505);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            padding: 30px 40px 40px;
+            border-radius: 4px;
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.9);
+        }
+
+        /* Hiệu ứng ánh sáng cạnh */
+        .record-board::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 4px;
+            padding: 1px;
+            background: linear-gradient(to bottom right, rgba(255,255,255,0.1), transparent, rgba(255,255,255,0.05));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Thanh dọc bên trái */
+        .accent-bar {
+            position: absolute;
+            left: 0;
+            top: 20px;
+            bottom: 20px;
+            width: 3px;
+            background-color: currentColor;
+            box-shadow: 0 0 15px currentColor;
+            border-radius: 0 2px 2px 0;
+        }
+
+        /* Header */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .title-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-style: italic;
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        .security-info {
+            text-align: right;
+            line-height: 1.1;
+        }
+
+        .security-code {
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .security-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #555;
+            margin-top: 6px;
+        }
+
+        /* Layout Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 12px;
+        }
+
+        .primary-box {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 2px;
+        }
+
+        .secondary-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .info-cell {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 14px 20px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .info-cell:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .cell-label {
+            font-size: 0.6rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .cell-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #efeff1;
+            text-transform: uppercase;
+        }
+
+        .lock-icon {
+            opacity: 0.15;
+            transition: opacity 0.3s ease;
+        }
+        .record-board:hover .lock-icon {
+            opacity: 0.4;
+        }
+
+        /* Footer trang trí */
+        .footer-deco {
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .deco-dots { display: flex; gap: 4px; }
+        .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.2; }
+        .dot.fill { opacity: 0.8; }
+        .deco-line { flex-grow: 1; height: 1px; background: rgba(255,255,255,0.05); }
+
+    </style>
+</head>
+<body>
+
+    <!-- LOẠI 1: TÀI LIỆU NHẬT KÝ -->
+    <div class="record-board" style="color: #f43f5e;">
+        <div class="accent-bar"></div>
+        <div class="header-section">
+            <div class="title-text">TÀI LIỆU: DIARY #_</div>
+            <div class="security-info">
+                <div class="security-code">F.I.F.R.O</div>
+                <div class="security-label">PHÂN LOẠI TRUY CẬP</div>
+            </div>
+        </div>
+        
+        <div class="content-grid">
+            <div class="primary-box">
+                <div>
+                    <div class="cell-label" style="color: rgba(244, 63, 94, 0.5);">PHÂN LOẠI TRUY CẬP:</div>
+                    <div class="text-3xl font-bold text-white tracking-[0.2em]">_ _ _ _ _</div>
+                </div>
+                <div class="lock-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+            </div>
+            <div class="secondary-stack">
+                <div class="info-cell">
+                    <div class="cell-label">NGƯỜI VIẾT:</div>
+                    <div class="cell-value"></div>
+                </div>
+                <div class="info-cell">
+                    <div class="cell-label">TỔNG HỢP BỞI:</div>
+                    <div class="cell-value">M.A.P.L.E / LOGS</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-deco">
+            <div class="deco-dots">
+                <div class="dot fill"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="deco-line"></div>
+        </div>
+    </div>
+
+    <!-- LOẠI 2: THỰC THỂ -->
+    <div class="record-board" style="color: #3b82f6;">
+        <div class="accent-bar"></div>
+        <div class="header-section">
+            <div class="title-text">THỰC THỂ: E-_</div>
+            <div class="security-info">
+                <div class="security-code">LEVEL _+</div>
+                <div class="security-label">MỨC ĐỘ TRUY CẬP</div>
+            </div>
+        </div>
+        
+        <div class="content-grid">
+            <div class="primary-box">
+                <div>
+                    <div class="cell-label" style="color: rgba(59, 130, 246, 0.5);">TÊN ĐỊNH DANH:</div>
+                    <div class="text-3xl font-bold text-white tracking-tight">_</div>
+                </div>
+                <div class="lock-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </div>
+            </div>
+            <div class="secondary-stack">
+                <div class="info-cell">
+                    <div class="cell-label">GẶP TẠI ĐÂU:</div>
+                    <div class="cell-value"></div>
+                </div>
+                <div class="info-cell">
+                    <div class="cell-label">MỨC ĐỘ NGUY HIỂM:</div>
+                    <div class="cell-value"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-deco">
+            <div class="deco-dots">
+                <div class="dot"></div><div class="dot fill"></div><div class="dot"></div>
+            </div>
+            <div class="deco-line"></div>
+        </div>
+    </div>
+
+    <!-- LOẠI 3: VẬT PHẨM -->
+    <div class="record-board" style="color: #f59e0b;">
+        <div class="accent-bar"></div>
+        <div class="header-section">
+            <div class="title-text">VẬT PHẨM: I-_</div>
+            <div class="security-info">
+                <div class="security-code">LEVEL _+</div>
+                <div class="security-label">MỨC ĐỘ TRUY CẬP</div>
+            </div>
+        </div>
+        
+        <div class="content-grid">
+            <div class="primary-box">
+                <div>
+                    <div class="cell-label" style="color: rgba(245, 158, 11, 0.5);">TÊN VẬT PHẨM:</div>
+                    <div class="text-3xl font-bold text-white tracking-tight">_</div>
+                </div>
+                <div class="lock-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                </div>
+            </div>
+            <div class="secondary-stack">
+                <div class="info-cell">
+                    <div class="cell-label">ĐỘ HIẾM:</div>
+                    <div class="cell-value"></div>
+                </div>
+                <div class="info-cell">
+                    <div class="cell-label">LOẠI:</div>
+                    <div class="cell-value"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-deco">
+            <div class="deco-dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot fill"></div>
+            </div>
+            <div class="deco-line"></div>
+        </div>
+        <footer class="mt-20 text-center border-t border-gray-900 pt-6 pb-10">
+            <p class="text-[10px] text-gray-700 tracking-[0.2em]">THIẾT KẾ BỞI BEESTUDIO 2026 - HỆ THỐNG M.A.P.L.E</p>
+            <p class="text-[10px] text-gray-600">Cảm ơn đã xem qua sản phẩm này</p>
+        </footer>
+    </div>
+
+</body>
+</html>
