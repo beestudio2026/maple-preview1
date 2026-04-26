@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.A.P.L.E LOGO // INTERNAL ARCHIVE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@800&display=swap');
+        
+
+
+        @keyframes pulse-eye {
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        body {
+            background-color: #020202; 
+            font-family: 'JetBrains+Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #71717a;
+            background-image: radial-gradient(#111 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .thank-you-card {
+            background-color: #070707; 
+            border: 1px solid #1a1a1a;
+            max-width: 600px;
+            width: 95%;
+            position: relative;
+            padding: 60px;
+            box-shadow: 0 0 80px rgba(0,0,0,1), inset 0 0 20px rgba(239, 68, 68, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .thank-you-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #450a0a, #ef4444, #450a0a);
+            box-shadow: 2px 0 10px rgba(239, 68, 68, 0.2);
+        }
+
+
+        .logo-display:hover {
+            animation-play-state: running;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(239, 68, 68, 0.1);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+            animation: scan 4s linear infinite;
+            pointer-events: none;
+        }
+
+        .main-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #eee;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #ef4444;
+            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .sub-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: #444;
+            font-weight: bold;
+        }
+
+        .security-stamp {
+            font-size: 0.6rem;
+            color: #ef4444;
+            border: 1px solid #450a0a;
+            padding: 3px 10px;
+            margin-top: 40px;
+            font-weight: bold;
+            opacity: 0.6;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="thank-you-card">
+        <div class="scan-line"></div>
+        
+        <div class="logo-display">
+            <svg width="150" height="150" viewBox="0 0 100 100" fill="none">
+                <path d="M50 5L95 40L80 95H20L5 40L50 5Z" stroke="#450a0a" stroke-width="1"/>
+                <path d="M50 15V85M50 15L85 45L50 40L15 45L50 15Z" stroke="#ef4444" stroke-width="3" stroke-linejoin="miter"/>
+                <path d="M30 60L50 85L70 60" stroke="#ef4444" stroke-width="3"/>
+                <circle cx="50" cy="40" r="6" fill="#ef4444" style="animation: pulse-eye 3s infinite; "></circle>
+            </svg>
+        </div>
+
+        <div class="text-center">
+            <h1 class="main-title">M.<span class="highlight">A</span>.P.L.E</h1>
+            <p class="sub-label">Containment // Archive</p>
+        </div>
+
+        <div class="security-stamp">
+            Authenticated // Internal Asset 2026
+        </div>
+        
+        <div class="mt-4" style="font-size: 0.5rem; color: #222; font-style: italic;">
+            Observing the Void
+        </div>
+                <footer class="mt-20 text-center border-t border-gray-800 pt-10">
+            <p class="text-[10px] text-gray-600 tracking-widest uppercase font-bold">
+                DESIGN BY BEESTUDIO 2026 - M.A.P.L.E CORE - (PROTOTYPE)
+            </p>
+            <p class="text-[10px] text-gray-600 mt-1">
+                <span class="lang-en">Thank you for reviewing this document.</span>
+                <span class="lang-vi" lang-hide>(Cảm ơn đã xem qua sản phẩm này.)</span>
+            </p>
+            <div class="mt-6">
+                <a href="thankyou.html" class="text-red-500 hover:text-red-400 underline text-xs font-bold uppercase tracking-tighter">
+                    <span class="lang-en">Next Page →</span>
+                    <span class="lang-vi" lang-hide>(Trang Tiếp →)</span>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

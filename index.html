@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.A.P.L.E Security Template</title>
+    <title>M.A.P.L.E Security - Demo System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
@@ -14,9 +14,45 @@
             color: #ccc;
             padding: 2rem;
             line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* --- LOẠI 1: CONFIDENTIAL BLOCK (DÙNG CHO CẢ ĐOẠN VĂN) --- */
+        /* --- HIỆU ỨNG PULSE EYE CHO LOGO --- */
+        @keyframes pulse-eye {
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+
+        /* --- DẤU DEMO DÀY ĐẶC (DỄ NHÌN) --- */
+        .demo-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            opacity: 0.15; /* Tăng độ hiển thị của chữ Demo */
+        }
+
+        .demo-item {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ff0000;
+            text-transform: uppercase;
+            transform: rotate(-25deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        /* --- CONFIDENTIAL BLOCK (LOẠI 1) --- */
         .confidential-block {
             border: 1px solid #450a0a;
             background: #110000;
@@ -36,7 +72,6 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #7f1d1d;
-            transition: all 0.3s;
         }
 
         .blur-zone {
@@ -54,8 +89,7 @@
 
         .warning-label {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10;
             text-align: center;
@@ -75,29 +109,20 @@
             letter-spacing: 2px;
         }
 
-        /* Trạng thái sau khi click giải mã loại 1 */
         .is-decrypted .blur-content {
             filter: blur(0);
             user-select: text;
             color: #d1d5db;
         }
-
-        .is-decrypted .warning-label {
-            opacity: 0;
-        }
-
+        .is-decrypted .warning-label { opacity: 0; }
         .is-decrypted .security-header {
             background: #064e3b;
             color: #6ee7b7;
             border-bottom-color: #065f46;
         }
 
-        /* --- LOẠI 2: INLINE BLUR (THUẦN CSS - KHÔNG JAVASCRIPT) --- */
-        /* Sử dụng cơ chế nhãn và checkbox ẩn để lưu trạng thái click */
-        .blur-toggle {
-            display: none;
-        }
-
+        /* --- INLINE BLUR --- */
+        .blur-toggle { display: none; }
         .inline-blur-label {
             display: inline-block;
             filter: blur(5px);
@@ -107,112 +132,266 @@
             transition: all 0.3s ease;
             padding: 0 4px;
             border-radius: 2px;
-            user-select: none;
             border-bottom: 1px dashed #7f1d1d;
         }
 
-        .inline-blur-label:hover {
-            background-color: rgba(239, 68, 68, 0.2);
-        }
-
-        /* Khi checkbox được check (đã click), bỏ mờ */
         .blur-toggle:checked + .inline-blur-label {
             filter: blur(0);
             color: #f87171;
             background-color: transparent;
             border-bottom: 1px solid transparent;
-            user-select: text;
         }
 
-        /* Chấm trạng thái (Status Dot) */
+        /* --- LANG CONTROL --- */
+        [lang-hide] { display: none; }
         .status-dot {
-            height: 8px;
-            width: 8px;
+            height: 8px; width: 8px;
             background-color: #ef4444;
             border-radius: 50%;
             display: inline-block;
             margin-right: 8px;
-            box-shadow: 0 0 8px #ef4444;
         }
+        .is-decrypted .status-dot { background-color: #10b981; }
 
-        .is-decrypted .status-dot {
-            background-color: #10b981;
-            box-shadow: 0 0 8px #10b981;
+        .lang-btn {
+            border: 1px solid #333;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .lang-btn.active {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
         }
     </style>
 </head>
 <body>
 
-    <div class="max-w-3xl mx-auto">
-        <header class="mb-10 border-b border-gray-800 pb-4 text-center">
-            <h1 class="text-3xl font-bold text-white uppercase tracking-tighter">HỆ THỐNG PHÂN LỚP DỮ LIỆU M.A.P.L.E</h1>
-            <p class="text-red-500 text-xs mt-2 font-bold">[ CHỈ DÀNH CHO NHÂN VIÊN CHI NHÁNH VIỆT NAM ]</p>
+    <!-- Lớp phủ Demo (Dấu mộc dày) -->
+    <div class="demo-overlay">
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div>
+    </div>
+
+    <div class="max-w-3xl mx-auto relative z-10">
+        
+        <!-- Bộ chọn ngôn ngữ (Mặc định EN) -->
+        <div class="absolute -top-4 right-0 flex gap-2">
+            <button onclick="setLanguage('en')" id="btn-en" class="lang-btn active">EN</button>
+            <button onclick="setLanguage('vi')" id="btn-vi" class="lang-btn">VI</button>
+        </div>
+
+        <header class="mb-10 border-b border-gray-800 pb-8 text-center">
+            <!-- LOGO THEO ĐÚNG YÊU CẦU -->
+                   <div class="flex justify-between items-center mb-12">
+    <div class="flex items-center gap-4">
+        <svg width="55" height="55" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="m-glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur"/>
+                    <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <path d="M50 5L95 40L80 95H20L5 40L50 5Z" stroke="#450a0a" stroke-width="1" opacity="0.4"/>
+            
+            <g filter="url(#m-glow)">
+                <path d="M50 15V85M50 15L85 45L50 40L15 45L50 15Z" stroke="#ef4444" stroke-width="2.5" stroke-linejoin="miter"/>
+                <path d="M30 60L50 85L70 60" stroke="#ef4444" stroke-width="2.5"/>
+            </g>
+            
+            <circle cx="50" cy="40" r="5.5" fill="#ef4444" filter="url(#m-glow)" style="animation: pulse-eye 2.5s infinite; "/>
+        </svg>
+        <div class="flex flex-col">
+            <div class="text-[14px] font-black italic tracking-tighter text-red-600 leading-none">M.A.P.L.E</div>
+            <div class="text-[8px] font-bold tracking-[0.4em] text-gray-700 mt-1 uppercase">Central Archive / System</div>
+        </div>
+    </div>
+    
+    <div class="flex gap-2">
+        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn active">EN</button>
+        <button onclick="setLanguage('vi')" id="btn-vi" class="lang-btn">VI</button>
+    </div>
+</div>
+
+            <h1 class="text-3xl font-bold text-white uppercase tracking-tighter">
+                <span class="lang-en">M.A.P.L.E DATA CLASSIFICATION SYSTEM</span>
+                <span class="lang-vi" lang-hide>HỆ THỐNG PHÂN LỚP DỮ LIỆU M.A.P.L.E</span>
+            </h1>
+            <p class="text-red-500 text-[10px] mt-2 font-bold tracking-[0.2em]">
+                <span class="lang-en">[ INTERNAL USE - VIETNAM BRANCH ONLY ]</span>
+                <span class="lang-vi" lang-hide>[ CHỈ DÀNH CHO NHÂN VIÊN CHI NHÁNH VIỆT NAM ]</span>
+            </p>
         </header>
 
-        <!-- Ví dụ Loại 2: Inline Blur (Thuần CSS) -->
+        <!-- Loại 2: Inline Blur -->
         <section class="mb-12">
-            <h2 class="text-sm font-bold text-gray-500 mb-4 border-l-4 border-red-600 pl-2 uppercase">Loại 2: Giải mã cụm từ nhạy cảm </h2>
+            <h2 class="text-xs font-bold text-gray-500 mb-4 border-l-4 border-red-600 pl-2 uppercase">
+                <span class="lang-en">Phrase Decryption Mode</span>
+                <span class="lang-vi" lang-hide>Chế độ giải mã cụm từ</span>
+            </h2>
             <div class="bg-gray-900/30 p-6 rounded border border-gray-800">
-                <p>
-                    Đối tượng 
+                <p class="text-sm">
+                    <span class="lang-en">The subject</span>
+                    <span class="lang-vi" lang-hide>Đối tượng</span>
+                    
                     <input type="checkbox" id="blur1" class="blur-toggle">
                     <label for="blur1" class="inline-blur-label">█████</label> 
-                    được ghi nhận đã xâm nhập vào Maze 011 thông qua cơ chế 
+
+                    <span class="lang-en">was detected entering Maze 011 via</span>
+                    <span class="lang-vi" lang-hide>được ghi nhận đã xâm nhập vào Maze 011 thông qua</span>
+                    
                     <input type="checkbox" id="blur2" class="blur-toggle">
                     <label for="blur2" class="inline-blur-label">No-Clip</label> 
-                    vào lúc 
+
+                    <span class="lang-en">at exactly</span>
+                    <span class="lang-vi" lang-hide>vào đúng lúc</span>
+                    
                     <input type="checkbox" id="blur3" class="blur-toggle">
                     <label for="blur3" class="inline-blur-label">02:22 AM</label>. 
-                    Chúng tôi khuyến cáo các nhân viên 
+
+                    <span class="lang-en">We advise</span>
+                    <span class="lang-vi" lang-hide>Chúng tôi khuyến cáo</span>
+                    
                     <input type="checkbox" id="blur4" class="blur-toggle">
-                    <label for="blur4" class="inline-blur-label">Cấp 5</label> 
-                    theo dõi chặt chẽ mọi biến động của Tablet định vị.
+                    <label for="blur4" class="inline-blur-label">Level 5</label> 
+                    
+                    <span class="lang-en">personnel to monitor all Tablet activity.</span>
+                    <span class="lang-vi" lang-hide>nhân sự theo dõi chặt chẽ mọi biến động của Tablet.</span>
                 </p>
-                <p class="text-[10px] mt-4 text-gray-600 italic font-bold">>>> CLICK VÀO CÁC CỤM TỪ BỊ MỜ ĐỂ GIẢI MÃ</p>
+                <p class="text-[9px] mt-4 text-gray-600 italic font-bold tracking-widest uppercase">
+                    <span class="lang-en">>>> CLICK ON BLURRED CONTENT TO DECRYPT</span>
+                    <span class="lang-vi" lang-hide>>>> CLICK VÀO CỤM TỪ BỊ MỜ ĐỂ GIẢI MÃ</span>
+                </p>
             </div>
         </section>
 
-        <!-- Ví dụ Loại 1: Confidential Block -->
+        <!-- Loại 1: Confidential Block -->
         <section class="mb-8">
-            <h2 class="text-sm font-bold text-gray-500 mb-4 border-l-4 border-red-600 pl-2 uppercase">Loại 1: Giải mã đoạn văn bản </h2>
-            <p class="mb-2 text-sm text-gray-400">Trích xuất hồ sơ tội phạm của đối tượng tại Maze 011:</p>
+            <h2 class="text-xs font-bold text-gray-500 mb-4 border-l-4 border-red-600 pl-2 uppercase">
+                <span class="lang-en">Detailed Dossier Extraction</span>
+                <span class="lang-vi" lang-hide>Trích xuất hồ sơ chi tiết</span>
+            </h2>
             
             <div class="confidential-block" id="block-1">
-                <div class="security-header">
-                    <span><span class="status-dot"></span>DỮ LIỆU ĐANG KHÓA (LEVEL 5 REQUIRED)</span>
+                <div class="security-header" id="header-1">
+                    <span class="header-status">
+                        <span class="status-dot"></span>
+                        <span class="lang-en">DATA ENCRYPTED (LEVEL 5 REQUIRED)</span>
+                        <span class="lang-vi" lang-hide>DỮ LIỆU ĐANG KHÓA (LEVEL 5 REQUIRED)</span>
+                    </span>
                     <span>REF: SEC-990</span>
                 </div>
                 
                 <div class="blur-zone" onclick="toggleDecryption('block-1')">
                     <div class="warning-label">
-                        <div class="warning-badge">THÔNG TIN NHẠY CẢM - CLICK ĐỂ XÁC MINH QUYỀN TRUY CẬP</div>
-                        <p class="text-[10px] mt-2 text-red-400 opacity-70 italic uppercase">Cảnh báo: Mọi hành vi truy cập trái phép sẽ bị xử lý theo luật của tổ chức</p>
+                        <div class="warning-badge">
+                            <span class="lang-en">SENSITIVE CONTENT - CLICK TO VERIFY</span>
+                            <span class="lang-vi" lang-hide>NỘI DUNG NHẠY CẢM - CLICK ĐỂ XÁC MINH</span>
+                        </div>
                     </div>
-                    <div class="blur-content">
-                        Nhân sự █████ là tội phạm bị truy nã vì nhiều tội danh như: Giết người, trộm cắp, bắt cóc trẻ con, tống tiền, tống tình, hiếp dâm người dưới 18 tuổi, buôn bán ma thuý,… và hôm nay là đêm cuối cùng của hắn trước khi tử hình. Việc dịch chuyển đối tượng vào The Maze được xem là một phương án thay thế cho án tử hình chính thức.
+                    <div class="blur-content text-sm">
+                        <div class="lang-en">
+                            Personnel █████ is a wanted criminal for multiple felonies: Homicide, grand larceny, abduction, extortion, sexual crimes against minors, drug trafficking... and today marks his final night before execution. Transferring him to The Maze is an alternative to the death penalty.
+                        </div>
+                        <div class="lang-vi" lang-hide>
+                            Nhân sự █████ là tội phạm bị truy nã vì nhiều tội danh như: Giết người, trộm cắp, bắt cóc trẻ con, tống tiền, tống tình, hiếp dâm người dưới 18 tuổi, buôn bán ma thuý,… và hôm nay là đêm cuối cùng của hắn trước khi tử hình. Việc dịch chuyển đối tượng vào The Maze được xem là một phương án thay thế cho án tử hình chính thức.
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="mt-20 text-center border-t border-gray-800 pt-4">
-            <p class="text-[10px] text-gray-600">THIẾT KẾ BỞI BEESTUDIO 2026 - HỆ THỐNG M.A.P.L.E - (THỬ NGHIỆM)</p>
-            <p class="text-[10px] text-gray-600">Cảm ơn đã xem qua sản phẩm này</p>
+        <footer class="mt-20 text-center border-t border-gray-800 pt-6">
+            <p class="text-[10px] text-gray-600 tracking-widest uppercase font-bold">
+                DESIGN BY BEESTUDIO 2026 - M.A.P.L.E CORE - (PROTOTYPE)
+            </p>
+            <p class="text-[10px] text-gray-600 mt-1">
+                <span class="lang-en">Thank you for reviewing this document.</span>
+                <span class="lang-vi" lang-hide>Cảm ơn đã xem qua sản phẩm này.</span>
+            </p>
+            <div class="mt-6">
+                <a href="phanloaitest.html" class="text-red-500 hover:text-red-400 underline text-xs font-bold uppercase tracking-tighter">
+                    <span class="lang-en">Next Page →</span>
+                    <span class="lang-vi" lang-hide>Trang tiếp →</span>
+                </a>
+            </div>
         </footer>
     </div>
 
     <script>
+        // Mặc định ngôn ngữ Tiếng Anh
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const viElements = document.querySelectorAll('.lang-vi');
+            const enElements = document.querySelectorAll('.lang-en');
+            
+            document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            if (lang === 'vi') {
+                viElements.forEach(el => el.style.display = 'inline-block');
+                enElements.forEach(el => el.style.display = 'none');
+            } else {
+                viElements.forEach(el => el.style.display = 'none');
+                enElements.forEach(el => el.style.display = 'inline-block');
+            }
+            // Update status text if decrypted
+            updateHeaderStatus();
+        }
+
         function toggleDecryption(blockId) {
             const block = document.getElementById(blockId);
             block.classList.toggle('is-decrypted');
-            
-            const headerText = block.querySelector('.security-header span:first-child');
-            if(block.classList.contains('is-decrypted')) {
-                headerText.innerHTML = '<span class="status-dot"></span>DỮ LIỆU ĐÃ ĐƯỢC GIẢI MÃ';
-            } else {
-                headerText.innerHTML = '<span class="status-dot"></span>DỮ LIỆU ĐANG KHÓA (LEVEL 5 REQUIRED)';
-            }
+            updateHeaderStatus();
         }
+
+        function updateHeaderStatus() {
+            const block = document.getElementById('block-1');
+            const headerStatus = block.querySelector('.header-status');
+            const isDecrypted = block.classList.contains('is-decrypted');
+            
+            if(isDecrypted) {
+                headerStatus.innerHTML = `
+                    <span class="status-dot" style="background-color: #10b981;"></span>
+                    <span class="${currentLang === 'vi' ? '' : 'hidden'} lang-vi">DỮ LIỆU ĐÃ GIẢI MÃ</span>
+                    <span class="${currentLang === 'en' ? '' : 'hidden'} lang-en">DATA DECRYPTED</span>
+                `;
+            } else {
+                headerStatus.innerHTML = `
+                    <span class="status-dot"></span>
+                    <span class="${currentLang === 'vi' ? '' : 'hidden'} lang-vi">DỮ LIỆU ĐANG KHÓA (LEVEL 5 REQUIRED)</span>
+                    <span class="${currentLang === 'en' ? '' : 'hidden'} lang-en">DATA ENCRYPTED (LEVEL 5 REQUIRED)</span>
+                `;
+            }
+
+            // Fix visibility for header spans
+            headerStatus.querySelectorAll('span').forEach(s => {
+                if(!s.classList.contains('status-dot')) {
+                    if(s.classList.contains('lang-' + currentLang)) s.style.display = 'inline-block';
+                    else s.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize
+        window.onload = () => setLanguage('en');
     </script>
 </body>
 </html>

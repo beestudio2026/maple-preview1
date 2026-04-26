@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRAHEZE APPRECIATION // M.A.P.L.E INTERNAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@800&display=swap');
+        
+     
+
+        @keyframes pulse-eye {
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+
+        body {
+            background-color: #020202; 
+            font-family: 'JetBrains+Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #71717a;
+            overflow-x: hidden;
+            background-image: radial-gradient(#111 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .thank-you-card {
+            background-color: #070707; 
+            border: 1px solid #1a1a1a;
+            max-width: 850px;
+            width: 95%;
+            position: relative;
+            padding: 50px;
+            box-shadow: 0 0 80px rgba(0,0,0,1), inset 0 0 20px rgba(239, 68, 68, 0.05);
+        }
+
+        /* Red sidebar accent */
+        .thank-you-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #450a0a, #ef4444, #450a0a);
+            box-shadow: 2px 0 10px rgba(239, 68, 68, 0.2);
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #1a1a1a;
+            background: #0a0a0a;
+            color: #444;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
+        }
+
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #1f1f1f;
+            padding-bottom: 25px;
+        }
+
+
+        .logo-box:hover {
+            animation-play-state: running;
+        }
+
+        .main-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #eee;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-top: 10px;
+        }
+
+        .highlight {
+            color: #ef4444;
+            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .content-body {
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: #a1a1aa;
+            margin-bottom: 40px;
+            padding: 35px;
+            background: rgba(255,0,0,0.01);
+            border: 1px solid #111;
+            position: relative;
+            min-height: 350px;
+        }
+
+        .watermark-bg {
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            opacity: 0.02;
+            pointer-events: none;
+            transform: rotate(-15deg);
+        }
+
+        .footer-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-cell {
+            border: 1px solid #1a1a1a;
+            padding: 15px;
+            background: #050505;
+        }
+
+        .cell-label {
+            font-size: 0.55rem;
+            color: #450a0a;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .cell-value {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #d4d4d8;
+        }
+
+        .security-stamp {
+            font-size: 0.6rem;
+            color: #ef4444;
+            border: 1px solid #450a0a;
+            padding: 3px 10px;
+            display: inline-block;
+            margin-top: 25px;
+            font-weight: bold;
+            opacity: 0.6;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(239, 68, 68, 0.1);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+            animation: scan 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="thank-you-card">
+        <div class="scan-line"></div>
+        
+        <!-- Language Switcher -->
+        <div class="absolute top-0 right-0 m-6 flex gap-1 z-50">
+            <button onclick="switchLang('en')" id="btn-en" class="tab-btn active">EN</button>
+            <button onclick="switchLang('vi')" id="btn-vi" class="tab-btn">VI</button>
+        </div>
+
+        <div class="header-section">
+            <div class="flex flex-col gap-4">
+                <div class="logo-box flex items-center gap-4">
+                    <svg width="55" height="55" viewBox="0 0 100 100" fill="none">
+                        <path d="M50 5L95 40L80 95H20L5 40L50 5Z" stroke="#450a0a" stroke-width="1"/>
+                        <path d="M50 15V85M50 15L85 45L50 40L15 45L50 15Z" stroke="#ef4444" stroke-width="3" stroke-linejoin="miter"/>
+                        <path d="M30 60L50 85L70 60" stroke="#ef4444" stroke-width="3"/>
+                        <circle cx="50" cy="40" r="6" fill="#ef4444" style="animation: pulse-eye 3s infinite;"/>
+                    </svg>
+                    <div>
+                        <div class="text-[#ef4444] font-black italic text-xl leading-none">M.A.P.L.E</div>
+                        <div class="text-[8px] uppercase tracking-[0.3em] text-gray-600 mt-1">Containment // Archive</div>
+                    </div>
+                </div>
+                
+                <div id="title-en" class="lang-content active">
+                    <h1 class="main-title">APPRECIATION: <span class="highlight">MIRAHEZE</span></h1>
+                </div>
+                <div id="title-vi" class="lang-content">
+                    <h1 class="main-title">LỜI TRI ÂN: <span class="highlight">MIRAHEZE</span></h1>
+                </div>
+            </div>
+            
+            <div class="mt-2 text-right hidden md:block">
+                <div style="font-size: 0.5rem; color: #444; letter-spacing: 3px; font-weight: bold;">TRANS-ID: MHZ-082-ALPHA</div>
+                <div style="font-size: 0.75rem; color: #ef4444; font-weight: bold; margin-top: 5px;">[ DATA_SECURED ]</div>
+            </div>
+        </div>
+
+        <!-- English Content -->
+        <div id="content-en" class="lang-content active content-body">
+            <div class="watermark-bg">
+                <svg width="250" height="250" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 15L85 45L50 40L15 45L50 15Z" stroke="white" stroke-width="1" opacity="0.1"/>
+                </svg>
+            </div>
+            Hello volunteers and administrators at Miraheze,
+            <br><br>
+            Well, these lines might not be very relevant to the content, so you can skip them if you wish. However, I still hope you will read them, as they are my most sincere thanks to your team.
+            <br><br>
+            Miraheze is a large, non-profit wiki hosting site. It's fantastic because it's ad-free unlike Fandom, doesn't glitch like Wikidot, and most importantly, it is completely free and independent.
+            <br><br>
+            Thank you for providing us with such a wonderful tool for free and for allowing my personal project a place to be stored and developed. Thank you to the volunteers who took the time to review and approve my Wiki for official operation on the system. Your support for small communities and creative projects is truly invaluable.
+            <br><br>
+            Wishing the Miraheze team great health and continued success in maintaining this amazing mission for the internet community. Thank you all once again!
+        </div>
+
+        <!-- Vietnamese Content -->
+        <div id="content-vi" class="lang-content content-body">
+            <div class="watermark-bg">
+                <svg width="250" height="250" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 15L85 45L50 40L15 45L50 15Z" stroke="white" stroke-width="1" opacity="0.1"/>
+                </svg>
+            </div>
+            Chào các bạn tình nguyện viên và quản trị viên tại Miraheze,
+            <br><br>
+            Được rồi thì những dòng này sẽ không liên quan lắm đến nội dung nên các bạn có thể bỏ qua nếu muốn. Tuy vậy tôi vẫn mong các bạn vẫn sẽ đọc những dòng này vì đó là lời cảm ơn chân thành nhất của tôi dành cho đội ngũ của các bạn.
+            <br><br>
+            Miraheze là một trang web lưu trữ wiki lớn và phi lợi nhuận. Nó rất tuyệt khi không có quảng cáo như Fandom, không hay lỗi như Wikidot và đặc biệt là miễn phí hoàn toàn và tự do.
+            <br><br>
+            Và cảm ơn các bạn khi đã cung cấp cho chúng tôi một công cụ tuyệt vời như vậy miễn phí và cho phép dự án cá nhân của tôi có nơi để lưu trữ và phát triển. Cảm ơn các tình nguyện viên đã dành thời gian xem xét và phê duyệt để Wiki của tôi được chính thức hoạt động trên hệ thống. Sự hỗ trợ của các bạn đối với những cộng đồng nhỏ và các dự án sáng tạo là điều vô cùng đáng quý.
+            <br><br>
+            Chúc đội ngũ Miraheze luôn dồi dào sức khỏe và tiếp tục duy trì sứ mệnh tuyệt vời này cho cộng đồng internet. Một lần nữa xin cảm ơn các bạn rất nhiều!
+        </div>
+
+        <div class="footer-info">
+            <div class="info-cell">
+                <div class="cell-label">SENDER:</div>
+                <div class="cell-value">M.A.P.L.E OVERSEER</div>
+            </div>
+            <div class="info-cell">
+                <div class="cell-label">SYSTEM_STATUS:</div>
+                <div class="cell-value" id="status-text">ENCRYPTED // EN</div>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-end">
+            <div class="security-stamp">
+                AUTHENTICATED BY CENTRAL ARCHIVE // MHZ-2026
+            </div>
+            <div style="font-size: 0.5rem; color: #222; font-style: italic;">
+                Observing the Void since 2026
+            </div>
+        </div>
+    </div>
+    <script>
+        function switchLang(lang) {
+            // Toggle active buttons
+            document.getElementById('btn-en').classList.remove('active');
+            document.getElementById('btn-vi').classList.remove('active');
+            document.getElementById('btn-' + lang).classList.add('active');
+
+            // Toggle content visibility
+            const titles = document.querySelectorAll('.header-section .lang-content');
+            const contents = document.querySelectorAll('.content-body');
+            const statusText = document.getElementById('status-text');
+
+            titles.forEach(el => el.classList.remove('active'));
+            contents.forEach(el => el.classList.remove('active'));
+
+            document.getElementById('title-' + lang).classList.add('active');
+            document.getElementById('content-' + lang).classList.add('active');
+            
+            statusText.innerText = "ENCRYPTED // " + lang.toUpperCase();
+        }
+    </script>
+</body>
+</html>

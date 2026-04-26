@@ -3,24 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.A.P.L.E Record Templates - Refined</title>
+    <title>M.A.P.L.E Record Templates - Static</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@800&display=swap');
         
+        :root {
+            --bg: #030303;
+            --panel-gradient: linear-gradient(145deg, #0a0a0a, #050505);
+            --border-glow: rgba(255, 255, 255, 0.05);
+            --diary-color: #f43f5e;
+            --entity-color: #3b82f6;
+            --item-color: #f59e0b;
+        }
+
         body {
-            background-color: #030303;
+            background-color: var(--bg);
             font-family: 'JetBrains+Mono', monospace;
             padding: 60px 20px;
             color: #a1a1aa;
+            overflow-x: hidden;
         }
 
-        /* Khung bảng tổng quát */
+        /* --- DEMO OVERLAY (Dấu mộc bản quyền) --- */
+        .demo-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 100; display: grid;
+            grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(5, 1fr);
+            opacity: 0.05;
+        }
+        .demo-item {
+            font-size: 3rem; font-weight: 900; color: #ff0000;
+            text-transform: uppercase; transform: rotate(-25deg);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* --- LOGO PULSE EYE --- */
+        @keyframes pulse-eye {
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+
+        /* --- RECORD BOARD --- */
         .record-board {
             max-width: 880px;
             margin: 0 auto 80px;
-            background: linear-gradient(145deg, #0a0a0a, #050505);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--panel-gradient);
+            border: 1px solid var(--border-glow);
             position: relative;
             padding: 30px 40px 40px;
             border-radius: 4px;
@@ -29,271 +58,307 @@
 
         /* Hiệu ứng ánh sáng cạnh */
         .record-board::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 4px;
-            padding: 1px;
+            content: ''; position: absolute; inset: 0; border-radius: 4px; padding: 1px;
             background: linear-gradient(to bottom right, rgba(255,255,255,0.1), transparent, rgba(255,255,255,0.05));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
+            -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
         }
 
-        /* Thanh dọc bên trái */
         .accent-bar {
-            position: absolute;
-            left: 0;
-            top: 20px;
-            bottom: 20px;
-            width: 3px;
-            background-color: currentColor;
-            box-shadow: 0 0 15px currentColor;
+            position: absolute; left: 0; top: 20px; bottom: 20px; width: 3px;
+            background-color: currentColor; box-shadow: 0 0 15px currentColor;
             border-radius: 0 2px 2px 0;
         }
 
-        /* Header */
         .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         .title-text {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 800;
-            font-style: italic;
-            text-transform: uppercase;
-            color: #fff;
-            line-height: 1;
-            letter-spacing: -1px;
+            font-size: 2.2rem; font-weight: 800; font-style: italic;
+            text-transform: uppercase; color: #fff; line-height: 1; letter-spacing: -1px;
         }
 
-        .security-info {
-            text-align: right;
-            line-height: 1.1;
-        }
-
-        .security-code {
-            font-size: 1.4rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
-
-        .security-label {
-            font-size: 0.55rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #555;
-            margin-top: 6px;
-        }
+        .security-info { text-align: right; line-height: 1.1; }
+        .security-code { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; }
+        .security-label { font-size: 0.55rem; text-transform: uppercase; font-weight: bold; color: #555; margin-top: 6px; letter-spacing: 1px; }
 
         /* Layout Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 12px;
-        }
-
+        .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 12px; }
         .primary-box {
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 24px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 2px;
-        }
-
-        .secondary-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            background: rgba(255, 255, 255, 0.015); border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; border-radius: 2px;
         }
 
         .info-cell {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 14px 20px;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-        
-        .info-cell:hover {
-            background: rgba(255, 255, 255, 0.03);
-            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 14px 20px; border-radius: 2px;
         }
 
-        .cell-label {
-            font-size: 0.6rem;
-            color: #666;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
+        .cell-label { font-size: 0.6rem; color: #666; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .cell-value { font-size: 0.95rem; font-weight: 700; color: #efeff1; text-transform: uppercase; }
 
-        .cell-value {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #efeff1;
-            text-transform: uppercase;
-        }
-
-        .lock-icon {
-            opacity: 0.15;
-            transition: opacity 0.3s ease;
-        }
-        .record-board:hover .lock-icon {
-            opacity: 0.4;
-        }
+        .lock-icon { opacity: 0.15; }
 
         /* Footer trang trí */
-        .footer-deco {
-            margin-top: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .footer-deco { margin-top: 25px; display: flex; align-items: center; gap: 15px; }
         .deco-dots { display: flex; gap: 4px; }
         .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.2; }
         .dot.fill { opacity: 0.8; }
         .deco-line { flex-grow: 1; height: 1px; background: rgba(255,255,255,0.05); }
 
+        /* Lang Control */
+        [lang-hide] { display: none; }
+        .lang-btn { border: 1px solid #222; padding: 4px 12px; font-size: 10px; color: #444; font-weight: bold; transition: all 0.2s; cursor: pointer; }
+        .lang-btn.active { border-color: #555; color: #fff; background: #111; }
     </style>
 </head>
 <body>
 
-    <!-- LOẠI 1: TÀI LIỆU NHẬT KÝ -->
-    <div class="record-board" style="color: #f43f5e;">
-        <div class="accent-bar"></div>
-        <div class="header-section">
-            <div class="title-text">TÀI LIỆU: DIARY #_</div>
-            <div class="security-info">
-                <div class="security-code">F.I.F.R.O</div>
-                <div class="security-label">PHÂN LOẠI TRUY CẬP</div>
-            </div>
-        </div>
-        
-        <div class="content-grid">
-            <div class="primary-box">
-                <div>
-                    <div class="cell-label" style="color: rgba(244, 63, 94, 0.5);">PHÂN LOẠI TRUY CẬP:</div>
-                    <div class="text-3xl font-bold text-white tracking-[0.2em]">_ _ _ _ _</div>
-                </div>
-                <div class="lock-icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                </div>
-            </div>
-            <div class="secondary-stack">
-                <div class="info-cell">
-                    <div class="cell-label">NGƯỜI VIẾT:</div>
-                    <div class="cell-value"></div>
-                </div>
-                <div class="info-cell">
-                    <div class="cell-label">TỔNG HỢP BỞI:</div>
-                    <div class="cell-value">M.A.P.L.E / LOGS</div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-deco">
-            <div class="deco-dots">
-                <div class="dot fill"></div><div class="dot"></div><div class="dot"></div>
-            </div>
-            <div class="deco-line"></div>
-        </div>
+    <div class="demo-overlay">
+        <div class="demo-item">DEMO</div><div class="demo-item">DEMO</div><div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div><div class="demo-item">DEMO</div><div class="demo-item">DEMO</div>
+        <div class="demo-item">DEMO</div><div class="demo-item">DEMO</div><div class="demo-item">DEMO</div>
     </div>
 
-    <!-- LOẠI 2: THỰC THỂ -->
-    <div class="record-board" style="color: #3b82f6;">
-        <div class="accent-bar"></div>
-        <div class="header-section">
-            <div class="title-text">THỰC THỂ: E-_</div>
-            <div class="security-info">
-                <div class="security-code">LEVEL _+</div>
-                <div class="security-label">MỨC ĐỘ TRUY CẬP</div>
-            </div>
-        </div>
+    <div class="max-w-4xl mx-auto">
         
-        <div class="content-grid">
-            <div class="primary-box">
-                <div>
-                    <div class="cell-label" style="color: rgba(59, 130, 246, 0.5);">TÊN ĐỊNH DANH:</div>
-                    <div class="text-3xl font-bold text-white tracking-tight">_</div>
-                </div>
-                <div class="lock-icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                </div>
-            </div>
-            <div class="secondary-stack">
-                <div class="info-cell">
-                    <div class="cell-label">GẶP TẠI ĐÂU:</div>
-                    <div class="cell-value"></div>
-                </div>
-                <div class="info-cell">
-                    <div class="cell-label">MỨC ĐỘ NGUY HIỂM:</div>
-                    <div class="cell-value"></div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-deco">
-            <div class="deco-dots">
-                <div class="dot"></div><div class="dot fill"></div><div class="dot"></div>
-            </div>
-            <div class="deco-line"></div>
+        <!-- HEADER VỚI LOGO -->
+        <div class="flex justify-between items-center mb-12">
+    <div class="flex items-center gap-4">
+        <svg width="55" height="55" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="m-glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur"/>
+                    <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <path d="M50 5L95 40L80 95H20L5 40L50 5Z" stroke="#450a0a" stroke-width="1" opacity="0.4"/>
+            
+            <g filter="url(#m-glow)">
+                <path d="M50 15V85M50 15L85 45L50 40L15 45L50 15Z" stroke="#ef4444" stroke-width="2.5" stroke-linejoin="miter"/>
+                <path d="M30 60L50 85L70 60" stroke="#ef4444" stroke-width="2.5"/>
+            </g>
+            
+            <circle cx="50" cy="40" r="5.5" fill="#ef4444" filter="url(#m-glow)" style="animation: pulse-eye 2.5s infinite; "/>
+        </svg>
+        <div class="flex flex-col">
+            <div class="text-[14px] font-black italic tracking-tighter text-red-600 leading-none">M.A.P.L.E</div>
+            <div class="text-[8px] font-bold tracking-[0.4em] text-gray-700 mt-1 uppercase">Central Archive / System</div>
         </div>
     </div>
+    
+    <div class="flex gap-2">
+        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn active">EN</button>
+        <button onclick="setLanguage('vi')" id="btn-vi" class="lang-btn">VI</button>
+    </div>
+</div>
 
-    <!-- LOẠI 3: VẬT PHẨM -->
-    <div class="record-board" style="color: #f59e0b;">
-        <div class="accent-bar"></div>
-        <div class="header-section">
-            <div class="title-text">VẬT PHẨM: I-_</div>
-            <div class="security-info">
-                <div class="security-code">LEVEL _+</div>
-                <div class="security-label">MỨC ĐỘ TRUY CẬP</div>
+        <!-- LOẠI 1: TÀI LIỆU NHẬT KÝ -->
+        <div class="record-board" style="color: var(--diary-color);">
+            <div class="accent-bar"></div>
+            <div class="header-section">
+                <div class="title-text">
+                    <span class="lang-en">DOCUMENT: DIARY #_</span>
+                    <span class="lang-vi" lang-hide>TÀI LIỆU: NHẬT KÝ #_</span>
+                </div>
+                <div class="security-info">
+                    <div class="security-code">F.I.F.R.O</div>
+                    <div class="security-label">
+                        <span class="lang-en">SECURITY CLEARANCE</span>
+                        <span class="lang-vi" lang-hide>PHÂN LOẠI TRUY CẬP</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="primary-box">
+                    <div>
+                        <div class="cell-label" style="color: rgba(244, 63, 94, 0.4);">
+                            <span class="lang-en">ACCESS HASH:</span>
+                            <span class="lang-vi" lang-hide>MÃ TRUY CẬP:</span>
+                        </div>
+                        <div class="text-3xl font-bold text-white tracking-[0.25em]">_ _ _ _ _</div>
+                    </div>
+                    <div class="lock-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <div class="info-cell">
+                        <div class="cell-label">
+                            <span class="lang-en">AUTHOR:</span>
+                            <span class="lang-vi" lang-hide>NGƯỜI VIẾT:</span>
+                        </div>
+                        <div class="cell-value">REDACTED</div>
+                    </div>
+                    <div class="info-cell">
+                        <div class="cell-label">
+                            <span class="lang-en">SOURCE:</span>
+                            <span class="lang-vi" lang-hide>NGUỒN:</span>
+                        </div>
+                        <div class="cell-value">M.A.P.L.E / LOGS</div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-deco">
+                <div class="deco-dots"><div class="dot fill"></div><div class="dot"></div><div class="dot"></div></div>
+                <div class="deco-line"></div>
             </div>
         </div>
-        
-        <div class="content-grid">
-            <div class="primary-box">
-                <div>
-                    <div class="cell-label" style="color: rgba(245, 158, 11, 0.5);">TÊN VẬT PHẨM:</div>
-                    <div class="text-3xl font-bold text-white tracking-tight">_</div>
+
+        <!-- LOẠI 2: THỰC THỂ -->
+        <div class="record-board" style="color: var(--entity-color);">
+            <div class="accent-bar"></div>
+            <div class="header-section">
+                <div class="title-text">
+                    <span class="lang-en">ENTITY: E-_</span>
+                    <span class="lang-vi" lang-hide>THỰC THỂ: E-_</span>
                 </div>
-                <div class="lock-icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                <div class="security-info">
+                    <div class="security-code">LEVEL _+</div>
+                    <div class="security-label">
+                        <span class="lang-en">THREAT LEVEL</span>
+                        <span class="lang-vi" lang-hide>MỨC ĐỘ TRUY CẬP</span>
+                    </div>
                 </div>
             </div>
-            <div class="secondary-stack">
-                <div class="info-cell">
-                    <div class="cell-label">ĐỘ HIẾM:</div>
-                    <div class="cell-value"></div>
+            
+            <div class="content-grid">
+                <div class="primary-box">
+                    <div>
+                        <div class="cell-label" style="color: rgba(59, 130, 246, 0.4);">
+                            <span class="lang-en">IDENTIFIER:</span>
+                            <span class="lang-vi" lang-hide>TÊN ĐỊNH DANH:</span>
+                        </div>
+                        <div class="text-3xl font-bold text-white tracking-tight">_</div>
+                    </div>
+                    <div class="lock-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
                 </div>
-                <div class="info-cell">
-                    <div class="cell-label">LOẠI:</div>
-                    <div class="cell-value"></div>
+                <div class="flex flex-col gap-3">
+                    <div class="info-cell">
+                        <div class="cell-label">
+                            <span class="lang-en">LAST SEEN:</span>
+                            <span class="lang-vi" lang-hide>GẶP TẠI ĐÂU:</span>
+                        </div>
+                        <div class="cell-value">---</div>
+                    </div>
+                    <div class="info-cell">
+                        <div class="cell-label">
+                            <span class="lang-en">HAZARD:</span>
+                            <span class="lang-vi" lang-hide>MỨC ĐỘ NGUY HIỂM:</span>
+                        </div>
+                        <div class="cell-value">PENDING</div>
+                    </div>
                 </div>
+            </div>
+            <div class="footer-deco">
+                <div class="deco-dots"><div class="dot"></div><div class="dot fill"></div><div class="dot"></div></div>
+                <div class="deco-line"></div>
             </div>
         </div>
-        <div class="footer-deco">
-            <div class="deco-dots">
-                <div class="dot"></div><div class="dot"></div><div class="dot fill"></div>
+
+        <!-- LOẠI 3: VẬT PHẨM -->
+        <div class="record-board" style="color: var(--item-color);">
+            <div class="accent-bar"></div>
+            <div class="header-section">
+                <div class="title-text">
+                    <span class="lang-en">ITEM: I-_</span>
+                    <span class="lang-vi" lang-hide>VẬT PHẨM: I-_</span>
+                </div>
+                <div class="security-info">
+                    <div class="security-code">LEVEL _+</div>
+                    <div class="security-label">
+                        <span class="lang-en">CLASSIFICATION</span>
+                        <span class="lang-vi" lang-hide>MỨC ĐỘ TRUY CẬP</span>
+                    </div>
+                </div>
             </div>
-            <div class="deco-line"></div>
+            
+            <div class="content-grid">
+                <div class="primary-box">
+                    <div>
+                        <div class="cell-label" style="color: rgba(245, 158, 11, 0.4);">
+                            <span class="lang-en">ITEM NAME:</span>
+                            <span class="lang-vi" lang-hide>TÊN VẬT PHẨM:</span>
+                        </div>
+                        <div class="text-3xl font-bold text-white tracking-tight">_</div>
+                    </div>
+                    <div class="lock-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <div class="info-cell">
+                        <div class="cell-label">
+                            <span class="lang-en">RARITY:</span>
+                            <span class="lang-vi" lang-hide>ĐỘ HIẾM:</span>
+                        </div>
+                        <div class="cell-value">---</div>
+                    </div>
+                    <div class="info-cell">
+                        <div class="cell-label">
+                            <span class="lang-en">TYPE:</span>
+                            <span class="lang-vi" lang-hide>LOẠI:</span>
+                        </div>
+                        <div class="cell-value">UNKNOWN</div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-deco">
+                <div class="deco-dots"><div class="dot"></div><div class="dot"></div><div class="dot fill"></div></div>
+                <div class="deco-line"></div>
+            </div>
         </div>
-        <footer class="mt-20 text-center border-t border-gray-900 pt-6 pb-10">
-            <p class="text-[10px] text-gray-700 tracking-[0.2em]">THIẾT KẾ BỞI BEESTUDIO 2026 - HỆ THỐNG M.A.P.L.E</p>
-            <p class="text-[10px] text-gray-600">Cảm ơn đã xem qua sản phẩm này</p>
+
+        <!-- FOOTER -->
+        <footer class="mt-20 text-center border-t border-gray-800 pt-10">
+            <p class="text-[10px] text-gray-600 tracking-widest uppercase font-bold">
+                DESIGN BY BEESTUDIO 2026 - M.A.P.L.E CORE - (PROTOTYPE)
+            </p>
+            <p class="text-[10px] text-gray-600 mt-1">
+                <span class="lang-en">Thank you for reviewing this document.</span>
+                <span class="lang-vi" lang-hide>Cảm ơn đã xem qua sản phẩm này.</span>
+            </p>
+            <div class="mt-6">
+                <a href="logotest.html" class="text-red-500 hover:text-red-400 underline text-xs font-bold uppercase tracking-tighter">
+                    <span class="lang-en">Next Page →</span>
+                    <span class="lang-vi" lang-hide>Trang Tiếp →</span>
+                </a>
+            </div>
         </footer>
     </div>
 
+    <script>
+        function setLanguage(lang) {
+            const viElems = document.querySelectorAll('.lang-vi');
+            const enElems = document.querySelectorAll('.lang-en');
+            const btnVi = document.getElementById('btn-vi');
+            const btnEn = document.getElementById('btn-en');
+
+            if (lang === 'vi') {
+                viElems.forEach(el => el.style.display = 'inline-block');
+                enElems.forEach(el => el.style.display = 'none');
+                btnVi.classList.add('active');
+                btnEn.classList.remove('active');
+            } else {
+                viElems.forEach(el => el.style.display = 'none');
+                enElems.forEach(el => el.style.display = 'inline-block');
+                btnEn.classList.add('active');
+                btnVi.classList.remove('active');
+            }
+        }
+        
+        window.onload = () => setLanguage('en');
+    </script>
 </body>
 </html>
